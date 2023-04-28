@@ -26,8 +26,8 @@ CREATE TABLE "categories" (
 
 CREATE TABLE "posts" (
 	"id" serial NOT NULL,
-	"post_title" varchar(255) NOT NULL,
-	"post_text" varchar(255) NOT NULL,
+	"post_title" text NOT NULL,
+	"post_text" text NOT NULL,
 	"author_id" int NOT NULL,
 	"category_id" int NOT NULL,
 	CONSTRAINT "PK_Posts" PRIMARY KEY ("id"),
