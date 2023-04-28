@@ -20,7 +20,7 @@ CREATE TABLE "users" (
 
 CREATE TABLE "categories" (
 	"id" serial NOT NULL,
-	"categoty_name" varchar(255) NOT NULL UNIQUE,
+	"category_name" varchar(255) NOT NULL UNIQUE,
 	CONSTRAINT "PK_Categories" PRIMARY KEY ("id")
 );
 
@@ -48,8 +48,6 @@ CREATE TABLE "comments" (
 	CONSTRAINT "FK_Comments_Users" FOREIGN KEY ("comment_author_id") REFERENCES "users"("id")
 	on update cascade on delete cascade
 );
-
-
 
 CREATE TABLE "images" (
 	"id" serial NOT NULL,
