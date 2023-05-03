@@ -12,10 +12,10 @@ CREATE TABLE "users" (
 	"login" varchar(255) NOT NULL UNIQUE,
 	"password" varchar(255) NOT NULL,
 	"email" varchar(255) NOT NULL UNIQUE,
-	"role_id" int NOT null default 1,
+	"role_id" int NOT null,
 	CONSTRAINT "PK_Users" PRIMARY KEY ("id"),
 	CONSTRAINT "FK_Users_Roles" FOREIGN KEY ("role_id") REFERENCES "roles"("id")
-	on update cascade on delete set default
+		ON UPDATE CASCADE ON DELETE SET DEFAULT
 );
 
 CREATE TABLE "categories" (
@@ -29,12 +29,18 @@ CREATE TABLE "posts" (
 	"post_title" text NOT NULL,
 	"post_text" text NOT NULL,
 	"author_id" int NOT NULL,
-	"category_id" int NOT NULL,
 	CONSTRAINT "PK_Posts" PRIMARY KEY ("id"),
 	CONSTRAINT "FK_Posts_Users" FOREIGN KEY ("author_id") REFERENCES "users"("id")
-	on update cascade on delete cascade,
-	CONSTRAINT "FK_Posts_Categories" FOREIGN KEY ("category_id") REFERENCES "categories"("id")
-	on update cascade on delete cascade
+		ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE "post_category" (
+	"post_id" int NOT NULL,
+	"category_id" int NOT NULL,
+	CONSTRAINT "PK_Post_category" PRIMARY KEY ("post_id", "category_id"),
+	CONSTRAINT "FK_Post_category_Posts" FOREIGN KEY ("post_id") REFERENCES "posts"("id"),
+	CONSTRAINT "FK_Post_category_Categories" FOREIGN KEY ("category_id") REFERENCES "categories"("id")
+		ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE "comments" (
@@ -44,9 +50,9 @@ CREATE TABLE "comments" (
 	"comment_author_id" int NOT NULL,
 	CONSTRAINT "PK_Comments" PRIMARY KEY ("id"),
 	CONSTRAINT "FK_Comments_Posts" FOREIGN KEY ("post_id") REFERENCES "posts"("id")
-	on update cascade on delete cascade,
+		on update cascade on delete cascade,
 	CONSTRAINT "FK_Comments_Users" FOREIGN KEY ("comment_author_id") REFERENCES "users"("id")
-	on update cascade on delete cascade
+		ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE "images" (
@@ -55,5 +61,5 @@ CREATE TABLE "images" (
 	"image" bytea NOT NULL,
 	CONSTRAINT "PK_Images" PRIMARY KEY ("id"),
 	CONSTRAINT "FK_Images_Posts" FOREIGN KEY ("post_id") REFERENCES "posts"("id")
-	on update cascade on delete cascade
+		ON UPDATE CASCADE ON DELETE CASCADE
 );

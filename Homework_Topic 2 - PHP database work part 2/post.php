@@ -2,7 +2,9 @@
 include __DIR__ . '/functions/db.php';
 
 $post_id = $_GET['post_id'];
-$postQuery = "SELECT post_title, post_text, category_name FROM posts
+$postQuery = "
+SELECT post_title, post_text, category_name 
+FROM posts
 INNER JOIN categories ON categories.id = posts.category_id
 WHERE posts.id = :post_id";
 $stPost = getConnection()->prepare($postQuery);
