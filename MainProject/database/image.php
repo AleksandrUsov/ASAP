@@ -4,8 +4,8 @@ require_once __DIR__ . '/table.php';
 
 class Image extends Table
 {
-  private string $image;
-  private int $postId;
+  public string $image;
+  public int $postId;
 
   public function __construct(string $image, int $postId)
   {

@@ -4,9 +4,9 @@ require_once __DIR__ . '/table.php';
 
 class Comment extends Table
 {
-  private string $commentText;
-  private int $postId;
-  private int $commentAuthorId;
+  public string $commentText;
+  public int $postId;
+  public int $commentAuthorId;
 
   public function __construct(string $commentText, int $postId, int $commentAuthorId)
   {

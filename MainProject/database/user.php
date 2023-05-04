@@ -4,13 +4,13 @@ require_once __DIR__ . '/table.php';
 
 class User extends Table
 {
-  private string $firstname;
-  private string $patronymic;
-  private string $surname;
-  private string $login;
-  private string $password;
-  private string $email;
-  private int $roleId;
+  public string $firstname;
+  public string $patronymic;
+  public string $surname;
+  public string $login;
+  public string $password;
+  public string $email;
+  public int $roleId;
 
   public function __construct(string $firstname, string $patronymic, string $surname,
                               string $login, string $password, string $email, int $roleId = 1)

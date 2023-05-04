@@ -4,10 +4,11 @@ require_once __DIR__ . '/table.php';
 
 class Category extends Table
 {
-  private string $categoryName;
+  public string $categoryName;
 
-  public function __construct(string $categoryName)
+  public function __construct(string $categoryName, int $id = null)
   {
+    $this->id = $id;
     $this->categoryName = $categoryName;
   }
 
@@ -32,5 +33,87 @@ VALUES (:categoryName);";
 
     $statement = getConnection()->prepare($query);
     $statement->execute(['categoryName' => $categoryName]);
+  }
+
+  public static function getAll(): array
+  {
+    $query = "
+SELECT * FROM categories
+ORDER BY id DESC;
+";
+
+    $statement = getConnection()->query($query);
+    $categories = $statement->fetchAll();
+
+    $result = [];
+
+    foreach ($categories as $category) {
+      $id = $category['id'];
+      $categoryName = $category['category_name'];
+      $element = new Category($categoryName, $id);
+      $result[] = $element;
+    }
+    return $result;
+  }
+
+  public static function getById(int $id): Category
+  {
+    $query = "
+SELECT * FROM categories
+WHERE id = :id";
+
+    $statement = getConnection()->prepare($query);
+    $statement->execute(['id' => $id]);
+    $category = $statement->fetch();
+
+    $categoryId = $category['id'];
+    $categoryName = $category['category_name'];
+
+    return new Category($categoryName, $categoryId);
+  }
+
+  public static function getPostCategories(int $postId): array
+  {
+    $query = "
+    SELECT * FROM categories c
+    INNER JOIN post_category pc on pc.category_id = c.id
+    WHERE post_id = :postId;
+    ";
+
+    $statement = getConnection()->prepare($query);
+    $statement->execute(['postId' => $postId]);
+    $categories = $statement->fetchAll();
+
+    $result = [];
+    foreach ($categories as $category) {
+      $categoryId = $category['id'];
+      $categoryName = $category['category_name'];
+      $result[] = new Category($categoryName, $categoryId);
+    }
+
+    return $result;
+  }
+
+  public static function deleteEntity(int $id): void
+  {
+    $query = "
+    DELETE FROM categories
+    WHERE id = :id;
+    ";
+
+    $statement = getConnection()->prepare($query);
+    $statement->execute(['id' => $id]);
+  }
+
+  public function updateEntity(): void
+  {
+    $query = "
+    UPDATE categories
+    SET category_name = :categoryName
+    WHERE id = :id
+    ";
+
+    $statement = getConnection()->prepare($query);
+    $statement->execute(['categoryName' => $this->categoryName, 'id' => $this->id]);
   }
 }

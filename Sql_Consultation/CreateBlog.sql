@@ -38,7 +38,8 @@ CREATE TABLE "post_category" (
 	"post_id" int NOT NULL,
 	"category_id" int NOT NULL,
 	CONSTRAINT "PK_Post_category" PRIMARY KEY ("post_id", "category_id"),
-	CONSTRAINT "FK_Post_category_Posts" FOREIGN KEY ("post_id") REFERENCES "posts"("id"),
+	CONSTRAINT "FK_Post_category_Posts" FOREIGN KEY ("post_id") REFERENCES "posts"("id")
+		ON UPDATE CASCADE ON DELETE CASCADE,
 	CONSTRAINT "FK_Post_category_Categories" FOREIGN KEY ("category_id") REFERENCES "categories"("id")
 		ON UPDATE CASCADE ON DELETE CASCADE
 );

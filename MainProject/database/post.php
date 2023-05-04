@@ -1,16 +1,18 @@
 <?php
 require_once __DIR__ . '/connection.php';
 require_once __DIR__ . '/table.php';
+require_once __DIR__ . '/postCategory.php';
 
 class Post extends Table
 {
-  private string $postTitle;
-  private string $postText;
-  private int $authorId;
-  private int $categoryId;
+  public string $postTitle;
+  public string $postText;
+  public int $authorId;
+  public int $categoryId;
 
-  public function __construct(string $postTitle, string $postText, int $authorId)
+  public function __construct(string $postTitle, string $postText, int $authorId, int $id = null)
   {
+    $this->id = $id;
     $this->postTitle = $postTitle;
     $this->postText = $postText;
     $this->authorId = $authorId;
@@ -46,5 +48,88 @@ VALUES (:post_title, :post_text, :author_id);";
     $statement = getConnection()->prepare($query);
     $statement->execute(['post_title' => $title, 'post_text' => $text,
       'author_id' => $authorId]);
+  }
+
+  public static function getAll(): array
+  {
+    $query = "
+SELECT * FROM posts
+ORDER BY id DESC";
+
+    $statement = getConnection()->query($query);
+    $posts = $statement->fetchAll();
+
+    return static::сonvertToPost($posts);
+  }
+
+  public static function getPostsWithCategory(int $categoryId, int $limit = 5): array
+  {
+    $query = "
+SELECT id, post_title, post_text, author_id FROM posts p
+INNER JOIN post_category pc on pc.post_id = p.id
+WHERE category_id = :categoryId
+LIMIT :limit
+";
+    $statement = getConnection()->prepare($query);
+    $statement->execute(['categoryId' => $categoryId, 'limit' => $limit]);
+    $posts = $statement->fetchAll();
+
+    return static::сonvertToPost($posts);
+  }
+
+  private static function сonvertToPost(array $posts): array
+  {
+    $result = [];
+
+    foreach ($posts as $post) {
+      $postId = $post['id'];
+      $postTitle = $post['post_title'];
+      $postText = $post['post_text'];
+      $postAuthor = $post['author_id'];
+      $result[] = new Post($postTitle, $postText, $postAuthor, $postId);
+    }
+    return $result;
+  }
+
+  public static function getById(int $id): Post
+  {
+    $query = "
+SELECT * FROM posts
+WHERE id = :id";
+
+    $statement = getConnection()->prepare($query);
+    $statement->execute(['id' => $id]);
+    $post = $statement->fetch();
+
+    $postId = $post['id'];
+    $postTitle = $post['post_title'];
+    $postText = $post['post_text'];
+    $postAuthor = $post['author_id'];
+
+    return new Post($postTitle, $postText, $postAuthor, $postId);
+  }
+
+  public static function deleteEntity(int $id): void
+  {
+    $query = "
+    DELETE FROM posts
+    WHERE id = :id;
+    ";
+
+    $statement = getConnection()->prepare($query);
+    $statement->execute(['id' => $id]);
+  }
+
+  public function updateEntity(): void
+  {
+    $query = "
+    UPDATE posts
+    SET post_title = :title,
+        post_text = :text
+    WHERE id = :id
+    ";
+
+    $statement = getConnection()->prepare($query);
+    $statement->execute(['title' => $this->postTitle, 'text' => $this->postText, 'id' => $this->id]);
   }
 }

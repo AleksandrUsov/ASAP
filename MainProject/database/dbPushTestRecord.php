@@ -21,32 +21,67 @@ function dbPushTestRecords(): void
   $defaultCategory = new Category("Без категории");
   $defaultCategory->insertValue();
 
-  $post = new Post('First title', "Text", 1, 1);
-  $post->insertValue();
-  //Добавление рандомных постов
-  randPosts(10);
+  $authorId = 1;
+  $posts = [
+    [
+      'title' => "First title 1",
+      'text' => "First text 1"
+    ],
+    [
+      'title' => "First title 2",
+      'text' => "First text 2"
+    ],
+    [
+      'title' => "First title 3",
+      'text' => "First text 3"
+    ],
+    [
+      'title' => "First title 4",
+      'text' => "First text 4"
+    ],
+    [
+      'title' => "First title 5",
+      'text' => "First text 5"
+    ],
+    [
+      'title' => "First title 6",
+      'text' => "First text 6"
+    ],
+    [
+      'title' => "First title 7",
+      'text' => "First text 7"
+    ],
+    [
+      'title' => "First title 8",
+      'text' => "First text 8"
+    ],
+    [
+      'title' => "First title 9",
+      'text' => "First text 9"
+    ],
+    [
+      'title' => "First title 10",
+      'text' => "First text 10"
+    ]
+  ];
+  foreach ($posts as $post) {
+    $title = $post['title'];
+    $text = $post['text'];
+    $post = new Post($title, $text, $authorId);
+    $post->insertValue();
+  }
 
   //Добавить категорию первым 10 статьям
   setCategories();
 
   $comment = new Comment('Вау, это первый комментарий', 1, 1);
   $comment->insertValue();
+}
 
-  function randPosts(int $count)
-  {
-    for ($i = 0; $i < $count; $i++) {
-      $postTitle = file_get_contents("https://loripsum.net/api/1/short");
-      $postText = file_get_contents('https://loripsum.net/api');
-      $post = new Post($postTitle, $postText, 1);
-      $post->insertValue();
-    }
-  }
-
-  function setCategories()
-  {
-    for ($i = 1; $i <= 10; $i++) {
-      $postCategory = new PostCategory($i, 1);
-      $postCategory->insertValue();
-    }
+function setCategories()
+{
+  for ($i = 1; $i <= 10; $i++) {
+    $postCategory = new PostCategory($i, 1);
+    $postCategory->insertValue();
   }
 }

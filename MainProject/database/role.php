@@ -4,7 +4,7 @@ require_once __DIR__ . '/table.php';
 
 class Role extends Table
 {
-  private string $roleName;
+  public string $roleName;
 
   public function __construct(string $roleName)
   {
