@@ -1,5 +1,6 @@
 <?php
-include_once '../database/category.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/config.php';
+include_once ROOT . '/database/category.php';
 
 //Read
  $categories = Category::getAll();
@@ -24,7 +25,7 @@ $message = !empty($_GET['status']) ? $messages[$_GET['status']] : '';
   <title>Document</title>
 </head>
 <body>
-<?php include dirname(__DIR__) . "/widgets/admin.php" ?>
+<?php include ROOT . "/widgets/admin.php" ?>
 <h3 style="color: tomato"><?=$message?></h3>
 <a href="CRUD/category/createCategory.php">[Create]</a>
 <?php foreach ($categories as $category): ?>

@@ -1,11 +1,7 @@
 <?php
-include_once __DIR__ . "/database/createTables.php";
-include_once __DIR__ . "/database/dbPushTestRecord.php";
-
-//Раскомментить, если надо создать таблички
-//createTables();
-//Раскомментить, если надо заполнить данными
-//dbPushTestRecords();
+include_once $_SERVER['DOCUMENT_ROOT'] . '/config.php';
+include_once ROOT . "/database/createTables.php";
+include_once ROOT . "/database/dbPushTestRecord.php";
 ?>
 
 <!doctype html>
@@ -18,7 +14,7 @@ include_once __DIR__ . "/database/dbPushTestRecord.php";
   <title>Главная</title>
 </head>
 <body>
-<?php include __DIR__ . '/widgets/menu.php' ?>
+<?php include ROOT . '/widgets/menu.php' ?>
 <h1>Добро пожаловать в наш блог!</h1>
 </body>
 </html>

@@ -1,4 +1,7 @@
+<?php
+include_once $_SERVER['DOCUMENT_ROOT'] . '/config.php';
 
+?>
 
 <!doctype html>
 <html lang="en">
@@ -10,7 +13,7 @@
   <title>О нас</title>
 </head>
 <body>
-<?php include __DIR__ . '/widgets/menu.php' ?>
+<?php include ROOT . '/widgets/menu.php' ?>
 <h1>О нас</h1>
 </body>
 </html>

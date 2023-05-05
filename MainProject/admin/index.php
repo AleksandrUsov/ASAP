@@ -1,5 +1,6 @@
 <?php
-include_once '../database/post.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/config.php';
+include_once ROOT . '/database/post.php';
 
 //Read
 $posts = Post::getAll();
@@ -24,14 +25,14 @@ $message = !empty($_GET['status']) ? $messages[$_GET['status']] : '';
   <title>Document</title>
 </head>
 <body>
-<?php include dirname(__DIR__) . "/widgets/admin.php" ?>
+<?php include ROOT . "/widgets/admin.php" ?>
 <h3 style="color: tomato"><?=$message?></h3>
-<a href="CRUD/post/createPost.php">[Create]</a>
+<a href="/admin/CRUD/post/createPost.php">[Create]</a>
 <?php foreach ($posts as $post): ?>
     <h3>
       <?=$post->postTitle?>
-      <a href="CRUD/post/updatePost.php?id=<?=$post->id?>">[Edit]</a>
-      <a href="CRUD/post/deletePost.php?id=<?=$post->id?>">[Delete]</a>
+      <a href="/admin/CRUD/post/updatePost.php?id=<?=$post->id?>">[Edit]</a>
+      <a href="/admin/CRUD/post/deletePost.php?id=<?=$post->id?>">[Delete]</a>
     </h3><hr>
 <?php endforeach; ?>
 </body>

@@ -1,15 +1,17 @@
 <?php
-include_once $_SERVER['DOCUMENT_ROOT'] . 'database/category.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . 'database/connection.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/config.php';
+include_once ROOT . '/database/category.php';
+include_once ROOT . '/database/connection.php';
 
 //Create
 if (isset($_POST['categoryName'])) {
-  $categoryName = $_POST['categoryName'];
+  $categoryName = strip_tags($_POST['categoryName']);
 
   $newCategory = new Category($categoryName);
   $newCategory->insertValue();
 
-  header("Location: ../../categories.php?status=add");
+  header("Location: /admin/categories.php?status=add");
+  die();
 }
 ?>
 
@@ -23,7 +25,7 @@ if (isset($_POST['categoryName'])) {
   <title>Категория</title>
 </head>
 <body>
-<?php include $_SERVER['DOCUMENT_ROOT'] . "widgets/admin.php" ?>
+<?php include ROOT . "/widgets/admin.php" ?>
 <form action="#" method="post">
   <div style="display: flex; flex-direction: column">
     <label for="categoryName">Имя категории</label>

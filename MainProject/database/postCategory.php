@@ -1,5 +1,6 @@
 <?php
-require_once __DIR__ . '/connection.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/config.php';
+require_once ROOT . '/database/connection.php';
 class PostCategory
 {
   public int $postId;

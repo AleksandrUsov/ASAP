@@ -1,15 +1,16 @@
 <?php
-include_once $_SERVER['DOCUMENT_ROOT'] . 'database/post.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . 'database/category.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . 'database/postCategory.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . 'database/connection.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/config.php';
+include_once ROOT . '/database/post.php';
+include_once ROOT . '/database/category.php';
+include_once ROOT . '/database/postCategory.php';
+include_once ROOT . '/database/connection.php';
 
 $categories = Category::getAll();
 
 //Create
 if (isset($_POST['title']) && isset($_POST['category']) && isset($_POST['text'])) {
-  $postTitle = $_POST['title'];
-  $postText = $_POST['text'];
+  $postTitle = strip_tags($_POST['title']);
+  $postText = strip_tags($_POST['text']);
   $authorId = 1; //Заглушка
 
   $newPost = new Post($postTitle, $postText, $authorId);
@@ -26,7 +27,8 @@ if (isset($_POST['title']) && isset($_POST['category']) && isset($_POST['text'])
   }
   getConnection()->commit();
 
-  header("Location: ../../index.php?status=add");
+  header("Location: /admin/index.php?status=add");
+  die();
 }
 ?>
 
@@ -40,7 +42,7 @@ if (isset($_POST['title']) && isset($_POST['category']) && isset($_POST['text'])
   <title>Пост</title>
 </head>
 <body>
-<?php include $_SERVER['DOCUMENT_ROOT'] . "widgets/admin.php" ?>
+<?php include ROOT . "/widgets/admin.php" ?>
 <form action="#" method="post">
   <div style="display: flex; flex-direction: column">
     <label for="postTitle">Заголовок</label>

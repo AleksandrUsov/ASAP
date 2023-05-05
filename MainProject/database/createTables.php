@@ -1,11 +1,12 @@
 <?php
-include_once __DIR__ . '/user.php';
-include_once __DIR__ . '/role.php';
-include_once __DIR__ . '/image.php';
-include_once __DIR__ . '/category.php';
-include_once __DIR__ . '/comment.php';
-include_once __DIR__ . '/post.php';
-include_once __DIR__ . '/postCategory.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/config.php';
+include_once ROOT . '/database/user.php';
+include_once ROOT . '/database/role.php';
+include_once ROOT . '/database/image.php';
+include_once ROOT . '/database/category.php';
+include_once ROOT . '/database/comment.php';
+include_once ROOT . '/database/post.php';
+include_once ROOT . '/database/postCategory.php';
 
 function createTables(): void
 {

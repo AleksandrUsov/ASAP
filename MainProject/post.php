@@ -1,6 +1,7 @@
 <?php
-include __DIR__ . '/database/post.php';
-include __DIR__ . '/database/category.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/config.php';
+include ROOT . '/database/post.php';
+include ROOT . '/database/category.php';
 
 $postId = $_GET['postId'];
 $post = Post::getById($postId);
@@ -17,7 +18,7 @@ $postCategories = Category::getPostCategories($postId);
   <title>Пост</title>
 </head>
 <body>
-<?php include __DIR__ . '/widgets/menu.php' ?>
+<?php include ROOT . '/widgets/menu.php' ?>
 <h2><?=$post->postTitle?></h2>
 <p><?=$post->postText?></p>
 <p style="color: gray">

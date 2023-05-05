@@ -1,6 +1,7 @@
 <?php
-include __DIR__ . '/database/category.php';
-include __DIR__ . '/database/post.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/config.php';
+include ROOT . '/database/category.php';
+include ROOT . '/database/post.php';
 
 
 if (!isset($_GET['page'])) {
@@ -26,10 +27,10 @@ $posts = Post::getPostsWithCategory($categoryId, $limit);
   <title>Посты</title>
 </head>
 <body>
-<?php include __DIR__ . '/widgets/menu.php' ?>
+<?php include ROOT . '/widgets/menu.php' ?>
 <h3><?= $category->categoryName . ":"?></h3>
 <?php foreach ($posts as $post): ?>
-  <a href="./post.php?postId=<?=$post->id?>">
+  <a href="/post.php?postId=<?=$post->id?>">
     <li><b><?=$post->postTitle?></b></li>
   </a><br>
 <?php endforeach; ?>

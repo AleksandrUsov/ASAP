@@ -1,7 +1,8 @@
 <?php
-require_once __DIR__ . '/connection.php';
-require_once __DIR__ . '/table.php';
-require_once __DIR__ . '/postCategory.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/config.php';
+require_once ROOT . '/database/connection.php';
+require_once ROOT . '/database/table.php';
+require_once ROOT . '/database/postCategory.php';
 
 class Post extends Table
 {

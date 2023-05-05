@@ -1,13 +1,14 @@
 <?php
-include_once $_SERVER['DOCUMENT_ROOT'] . 'database/post.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . 'database/category.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . 'database/postCategory.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . 'database/connection.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/config.php';
+include_once ROOT . '/database/post.php';
+include_once ROOT . '/database/category.php';
+include_once ROOT . '/database/postCategory.php';
+include_once ROOT . '/database/connection.php';
 
 $categories = Category::getAll();
 
 if (isset($_GET['id'])) {
-  $id = $_GET['id'];
+  $id = strip_tags($_GET['id']);
   $post = Post::getById($id);
   $postCategories = Category::getPostCategories($id);
 }
@@ -15,9 +16,9 @@ if (isset($_GET['id'])) {
 ////Edit
 if (!empty($_POST)) {
   $id = $_POST['id'];
-  $newTitle = $_POST['title'];
+  $newTitle = strip_tags($_POST['title']);
   $newCategories = $_POST['category'];
-  $newText = $_POST['text'];
+  $newText = strip_tags($_POST['text']);
   $author = $_POST['author'];
 
   $newPost = new Post($newTitle, $newText, $author, $id);
@@ -30,7 +31,9 @@ if (!empty($_POST)) {
     $postCategory->insertValue();
   }
   getConnection()->commit();
-  header("Location: ../../index.php?status=update");
+
+  header("Location: /admin/index.php?status=update");
+  die();
 }
 
 ?>
@@ -45,7 +48,7 @@ if (!empty($_POST)) {
   <title>Пост</title>
 </head>
 <body>
-<?php include $_SERVER['DOCUMENT_ROOT'] . "widgets/admin.php" ?>
+<?php include ROOT . "/widgets/admin.php" ?>
 <form action="#" method="post">
   <div style="display: flex; flex-direction: column">
     <input type="text" name="id" hidden="hidden" value="<?= $post->id ?>" style=" max-width: 500px;"><br>

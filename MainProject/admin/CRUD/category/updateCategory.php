@@ -1,23 +1,25 @@
 <?php
-include_once $_SERVER['DOCUMENT_ROOT'] . 'database/category.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . 'database/connection.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/config.php';
+include_once ROOT . '/database/category.php';
+include_once ROOT . '/database/connection.php';
 
 $categories = Category::getAll();
 
 if (isset($_GET['id'])) {
-  $id = $_GET['id'];
+  $id = strip_tags($_GET['id']);
   $category = Category::getById($id);
 }
 
 ////Edit
 if (!empty($_POST)) {
   $id = $_POST['id'];
-  $newCategoryName = $_POST['categoryName'];
+  $newCategoryName = strip_tags($_POST['categoryName']);
 
   $newCategory = new Category($newCategoryName, $id);
   $newCategory->updateEntity();
 
-  header("Location: ../../categories.php?status=update");
+  header("Location: /admin/categories.php?status=update");
+  die();
 }
 ?>
 
@@ -31,7 +33,7 @@ if (!empty($_POST)) {
   <title>Категория</title>
 </head>
 <body>
-<?php include $_SERVER['DOCUMENT_ROOT'] . "widgets/admin.php" ?>
+<?php include ROOT . "/widgets/admin.php" ?>
 <form action="#" method="post">
   <div style="display: flex; flex-direction: column">
     <input type="text" name="id" value="<?=$category->id?>" hidden="hidden" ;">

@@ -1,5 +1,6 @@
 <?php
-include __DIR__ . '/database/category.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/config.php';
+include ROOT . '/database/category.php';
 
 $categories = Category::getAll();
 ?>
@@ -14,10 +15,10 @@ $categories = Category::getAll();
   <title>Категории</title>
 </head>
 <body>
-<?php include __DIR__ . '/widgets/menu.php' ?>
+<?php include ROOT . '/widgets/menu.php' ?>
 <h1>Категории</h1>
 <?php foreach ($categories as $category): ?>
-  <a href="./posts.php?categoryId=<?=$category->id?>">
+  <a href="/posts.php?categoryId=<?=$category->id?>">
     <li>
       <?=$category->categoryName?>
     </li>
