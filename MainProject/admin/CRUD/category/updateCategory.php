@@ -3,6 +3,8 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/config.php';
 include_once ROOT . '/database/category.php';
 include_once ROOT . '/database/connection.php';
 
+session_start();
+
 $categories = Category::getAll();
 
 if (isset($_GET['id'])) {

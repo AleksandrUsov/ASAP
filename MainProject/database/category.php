@@ -11,6 +11,7 @@ class Category extends Table
   {
     $this->id = $id;
     $this->categoryName = $categoryName;
+
   }
 
   public static function createTable(): void

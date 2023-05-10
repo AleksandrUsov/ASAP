@@ -4,8 +4,12 @@ include_once ROOT . '/database/post.php';
 include_once ROOT . '/database/category.php';
 include_once ROOT . '/database/postCategory.php';
 include_once ROOT . '/database/connection.php';
+include_once ROOT . '/database/image.php';
+include_once ROOT . '/admin/CRUD/post/uploadImage.php';
 
 $categories = Category::getAll();
+
+$message = $_GET['message'] ?? '';
 
 //Create
 if (isset($_POST['title']) && isset($_POST['category']) && isset($_POST['text'])) {
@@ -27,6 +31,19 @@ if (isset($_POST['title']) && isset($_POST['category']) && isset($_POST['text'])
   }
   getConnection()->commit();
 
+  if (!empty($_FILES)) {
+
+    $fileName = uploadImage($_FILES['image']);
+    if ($fileName) {
+      $image = new Image($postId,$fileName);
+      $image->insertValue();
+    } else {
+      $textMessage = 'Ошибка загрузки файла';
+      header("Location: ?message=$textMessage");
+      die();
+    }
+  }
+
   header("Location: /admin/index.php?status=add");
   die();
 }
@@ -43,7 +60,10 @@ if (isset($_POST['title']) && isset($_POST['category']) && isset($_POST['text'])
 </head>
 <body>
 <?php include ROOT . "/widgets/admin.php" ?>
-<form action="#" method="post">
+<?php if (!empty($message)): ?>
+  <p style="color: red"><?= $message ?></p>
+<?php endif; ?>
+<form action="#" method="post" enctype="multipart/form-data">
   <div style="display: flex; flex-direction: column">
     <label for="postTitle">Заголовок</label>
     <input type="text" name="title" id="postTitle" style=" max-width: 500px;"><br>
@@ -57,6 +77,7 @@ if (isset($_POST['title']) && isset($_POST['category']) && isset($_POST['text'])
 
     <label for="postText">Текст</label>
     <textarea name="text" cols="30" rows="10" id="postText"></textarea><br>
+    <input type="file" name="image"><br>
   </div>
   <input type="submit" value="Создать">
 </form>

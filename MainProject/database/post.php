@@ -4,7 +4,7 @@ require_once ROOT . '/database/connection.php';
 require_once ROOT . '/database/table.php';
 require_once ROOT . '/database/postCategory.php';
 
-class Post extends Table
+class   Post extends Table
 {
   public string $postTitle;
   public string $postText;
@@ -69,6 +69,7 @@ ORDER BY id DESC";
 SELECT id, post_title, post_text, author_id FROM posts p
 INNER JOIN post_category pc on pc.post_id = p.id
 WHERE category_id = :categoryId
+ORDER BY id DESC 
 LIMIT :limit
 ";
     $statement = getConnection()->prepare($query);
